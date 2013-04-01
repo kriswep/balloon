@@ -1,0 +1,43 @@
+CACHE MANIFEST
+# 2012-12-13:v1
+
+# Explicitly cached entries
+
+# HTML
+index.html
+
+# JS
+res/js/jquery.js
+res/js/modernizr-1.7.min.js	
+res/js/resourceLoader.js
+res/js/misc.js
+res/levels/kidsl1.1.js
+res/js/wttile.js
+res/js/wtgm.js
+res/js/mowlee.js
+
+# CSS
+css/editor.css
+css/ml.css
+css/ui.css
+
+# Images
+res/img/tile16x16.png
+res/img/tile32x32.png
+res/img/a1.png
+res/img/a1s.png
+res/img/a2.png
+res/img/a3.png
+res/img/e1.png
+res/img/m1s.png
+res/img/m1r.png
+res/img/m1l.png
+res/img/x1.png
+res/img/x2.png
+res/img/x3.png
+res/img/x100.png
+
+res/img/ati-72x72.png
+res/img/ati-114x114.png
+res/img/ati-57x57.png
+res/img/startup-320x460.png
