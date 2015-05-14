@@ -10,7 +10,7 @@ var WTGM = {
 	    score:0,
 	    highsore:0,
 	    highscoreBroken:0,
-	    mode:3,
+	    mode:300,
 	    life:2,
 	    lastPos: -1,
 		lastScore: -1,
@@ -563,7 +563,7 @@ var WTGM = {
 	    	WTGM.touchY = pos.y;
 	    	var time = new Date().getTime();
 	    	var addScore = 0;
-	    	if (time-WTGM.touchStart>300){
+	    	if (time-WTGM.touchStart>300&&WTGM.mode<100){
 				//Zeit um Bonus zu bekommen!
 	    		WTGM.handleTouchEnd();
 	    	}
@@ -571,7 +571,7 @@ var WTGM = {
 	    	if (WTGM.touching){    	
 	    	  for (var i = 0; i<WTGM.objects.length; i++){
 	    		if (WTGM.objects[i].isInside(pos.x,pos.y)){
-	    			if (time-WTGM.touchStart<=300){
+	    			if (time-WTGM.touchStart<=300||WTGM.mode>100){
 	    				//Zeit um Bonus zu bekommen!
 		    			WTGM.hit += 1;
 	    			}else{
@@ -610,7 +610,7 @@ var WTGM = {
 	      if (WTGM.touching && !WTGM.paused){  	
 	    	if (!WTGM.hit){ 
 	    		//var pos = WTGM.translatePixels(x,y);
-    			if (WTGM.score-1000 > 0){
+    			if (WTGM.score-1000 > 0 && WTGM.mode<100){
     				WTGM.score-=1000;
     				var message = new wtMessage('-10',WTGM.touchX,WTGM.touchY,'#881111');
     	    		WTGM.objects.push(message);
@@ -672,7 +672,7 @@ var WTGM = {
 				oldScores[i]=localStorage.getItem(i+1);
 			}
 			//Aktuelle Punkte eintragen:
-			for (var i=0;i<11;i++){//Wenn unser Score Highscore ist, kann es 11 Einträge geben, nur 10 werden gespeichert!
+			for (var i=0;i<11;i++){//Wenn unser Score Highscore ist, kann es 11 EintrÃ¤ge geben, nur 10 werden gespeichert!
 				if (!found){
 					if (WTGM.lastScore>oldScores[i]||oldScores[i]=="null"){
 						scores[i] = WTGM.lastScore;
@@ -854,9 +854,20 @@ var WTGM = {
 	     */
 	    generateBalloon: function(){
 	    	var time = new Date().getTime();
+	    	
+	    	var balloonCreateRand=2000;
+	    	var balloonCreateConst=500;
+	    	var balloonSpeedRand=3;
+	    	var balloonSpeedConst=1;
+	    	
+	    	if (WTGM.mode>100){
+	    	balloonCreateRand=3000;
+	    	balloonCreateConst=1000;
+	    	balloonSpeedRand=1;
+	    	}
 	    	if (WTGM.createObjectTime<=time){
-	    		WTGM.createObjectTime=time+Math.floor(Math.random()*2000)+500;
-	    		var balloon = new wtBalloon(Math.floor(Math.random()*8),Math.floor(Math.random()*256),500,Math.floor(Math.random()*3)+1);
+	    		WTGM.createObjectTime=time+Math.floor(Math.random()*balloonCreateRand)+balloonCreateConst;
+	    		var balloon = new wtBalloon(Math.floor(Math.random()*8),Math.floor(Math.random()*256),500,Math.floor(Math.random()*balloonSpeedRand)+balloonSpeedConst);
 	    		WTGM.objects.push(balloon);
 	    	};
 	    	
