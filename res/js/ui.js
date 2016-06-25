@@ -9,6 +9,16 @@ $(document).ready(function (){
 		$('.openMenu').show();
 	});
 	
+	$('.toBaby').on('mousedown touchstart', function(e){
+		e.preventDefault();
+		document.location.href = "baby.html";
+	});
+	
+	$('.toKids').on('mousedown touchstart', function(e){
+		e.preventDefault();
+		document.location.href = "index.html";
+	});
+	
 	$('.openMenu').on('mousedown touchstart', function(e){
 		e.preventDefault();
 		WTGM.paused=1;
