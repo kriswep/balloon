@@ -84,13 +84,13 @@ var pointer = {
 		UP: 'mouseup',
 		MOVE: 'mousemove'
 };
-
+/*
 if (Modernizr.touch){
 		pointer.DOWN = 'touchstart';
 		pointer.UP = 'touchend';
 		pointer.MOVE = 'touchmove';
 }
-
+*/
 	//window.addEventListener(pointer.UP, function(e) { g.handleMouseUp(e); }, false);
 //$("canvas").on('mousedown', function(e){	
     //touchHandler(e);
