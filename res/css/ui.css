@@ -19,7 +19,7 @@
 	display:block;
 	width:85%;
 }
-.ui li span{
+.ui li span, .ui li a{
 	font-size:2em;
 	text-align: center;
 	padding:20px;
@@ -28,6 +28,8 @@
 	background-color:#33aeae;
 	text-decoration:none;
 	border-radius:60px;
+	color:black;
+	cursor:pointer;
 }
 .ui .inGameOption{
 	display: none;
