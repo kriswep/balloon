@@ -1,0 +1,11 @@
+{
+  "staticFileGlobs": [
+    
+    "**.html",
+    "res/css/**.css",
+    "res/img/**.png",
+    "res/js/**.js",
+    "res/levels/**.js"
+  ],
+  "cacheId": "wtBalloon"
+}

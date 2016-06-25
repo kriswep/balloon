@@ -1,0 +1,25 @@
+{
+  "name": "balloon",
+  "version": "1.0.0",
+  "description": "Catch 'n plop all the balloons.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "browser-sync start -s -f '*.html' 'res/**'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gen-sw-dev": "sw-precache --config=build/sw-precache-config.json --verbose --no-handle-fetch",
+    "gen-sw": "sw-precache --config=build/sw-precache-config.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@gitlab.wetainment.com:57481/kriswep/balloon.git"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "kriswep",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "sw-precache": "^3.2.0"
+  }
+}
