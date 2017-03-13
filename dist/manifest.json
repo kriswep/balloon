@@ -1,0 +1,32 @@
+{
+  "name": "Balloon Jr.",
+  "short_name": "Balloon Jr.",
+  "orientation": "portrait",
+  "display": "fullscreen",
+  "start_url": "",
+  "background_color": "#aeaeae",
+  "theme_color": "#63B1F9",
+  "start_url": "index.html",
+  "icons": [
+    {
+      "src": "./img/ati-57x57.png",
+      "sizes": "57x57",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/ati-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/ati-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/ati-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
