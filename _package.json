@@ -1,8 +1,10 @@
 {
-  "name": "balloon",
-  "version": "2.0.0",
-  "description": "Catch 'n plop all the balloons.",
-  "main": "index.html",
+  "name": "modern-modular-javascript",
+  "version": "1.1.0",
+  "description": "A modern and modular JavaScript boilerplate setup",
+  "main": "lib/server/index.js",
+  "author": "kriswep",
+  "license": "Unlicense",
   "babel": {
     "presets": [
       [
@@ -16,27 +18,22 @@
   "env": {
     "browser": true
   },
-  "_scripts": {
-    "dev": "browser-sync start -s -f '*.html' 'res/**'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gen-sw-dev": "sw-precache --config=build/sw-precache-config.json --verbose --no-handle-fetch",
-    "gen-sw": "sw-precache --config=build/sw-precache-config.json"
-  },
   "scripts": {
-    "_prebuild": "npm run lint && npm test && npm run cleanclient",
-    "prebuild": "npm run cleanclient",
+    "prebuild": "npm run lint && npm test && npm run cleanclient",
     "build": "webpack -p",
-    "cleanclient": "del dist/*.js*",
+    "cleanlib": "del lib",
+    "cleanclient": "del dist",
     "coverage": "nyc npm test",
     "coverage:watch": "watch \"npm run coverage\" ./src",
     "coverage-report": "nyc report --reporter=text",
+    "precompile": "npm run lint && npm test && npm run cleanlib",
+    "compile": "babel --presets env --ignore **.spec.js -d lib/ src/",
     "dev": "webpack-dev-server --inline --hot",
     "fulltest": "parallelshell \"npm run lint:watch\" \"npm run test:watch\"",
     "lint": "eslint \"./src\"",
     "lint:watch": "watch \"npm run lint\" ./src",
-    "_prestart": "npm run fulltest && npm run build",
-    "prestart": "npm run build",
-    "start": "browser-sync start -s -f 'dist/**'",
+    "prestart": "npm run compile && npm run build",
+    "start": "node lib/server/index.js",
     "test": "babel-node --presets env node_modules/.bin/tape \"./src/**/*.spec.js\" | faucet",
     "test:watch": "watch \"npm test\" ./src"
   },
@@ -65,21 +62,11 @@
       "import"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@gitlab.wetainment.com:57481/kriswep/balloon.git"
-  },
-  "keywords": [
-    "game"
-  ],
-  "author": "kriswep",
-  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
-    "browser-sync": "^2.13.0",
     "css-loader": "^0.27.1",
     "del-cli": "^0.2.0",
     "eslint": "^3.9.1",
@@ -88,16 +75,13 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.5.0",
     "faucet": "^0.0.1",
-    "file-loader": "^0.10.1",
     "html-webpack-plugin": "^2.28.0",
     "ignore-styles": "^5.0.1",
     "nyc": "^10.1.2",
     "parallelshell": "^2.0.0",
     "style-loader": "^0.13.2",
     "supertest": "^3.0.0",
-    "sw-precache": "^5.1.0",
     "tape": "^4.6.2",
-    "url-loader": "^0.5.8",
     "watch": "^1.0.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
