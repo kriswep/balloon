@@ -1,11 +1,11 @@
 /* global window */
-import $ from '../res/js/jquery';
+import $ from 'jquery/dist/jquery.min';
 import WTGM from './wtgm';
 import ResourceLoader, { ResourceType } from './resourceLoader';
 import './ui';
 
-import '../res/css/ml.css';
-import '../res/css/ui.css';
+import './css/ml.css';
+import './css/ui.css';
 
 // import './img/sprite.png';
 // import './img/back.png';

@@ -1,4 +1,4 @@
-import $ from '../res/js/jquery';
+import $ from 'jquery/dist/jquery.min';
 import wtBalloon from './wtballoon';
 import wtMessage from './wtmessage';
 

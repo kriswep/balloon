@@ -1,4 +1,4 @@
-import $ from '../res/js/jquery';
+import $ from 'jquery/dist/jquery.min';
 import WTGM from './wtgm';
 
 $(document).ready(() => {
