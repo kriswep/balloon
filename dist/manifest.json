@@ -3,7 +3,6 @@
   "short_name": "Balloon Jr.",
   "orientation": "portrait",
   "display": "fullscreen",
-  "start_url": "",
   "background_color": "#aeaeae",
   "theme_color": "#63B1F9",
   "start_url": "index.html",
