@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const production = process.env.NODE_ENV === 'production';
 const BUILD_DIR = path.resolve(__dirname, 'dist');
@@ -64,5 +65,6 @@ module.exports = {
       filename: 'baby.html',
       template: 'template.baby.html',
     }),
+    // new BundleAnalyzerPlugin(),
   ],
 };

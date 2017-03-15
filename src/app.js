@@ -1,5 +1,5 @@
-/* global window */
-import $ from 'jquery/dist/jquery.min';
+/* global window document */
+// import $ from 'jquery/dist/jquery.min';
 import WTGM from './wtgm';
 import ResourceLoader, { ResourceType } from './resourceLoader';
 import './ui';
@@ -27,9 +27,9 @@ function preloadResources(canvas, callback) {
   printProgressBar();
 }
 
-$(window).on('load', WTGM.init.bind(null, preloadResources));
-$(window).on('resize', WTGM.resize);
-$(window).on('keydown', WTGM.handleKeyDown);
+window.addEventListener('load', WTGM.init.bind(null, preloadResources));
+window.addEventListener('resize', WTGM.resize);
+window.addEventListener('keydown', WTGM.handleKeyDown);
 
 
 window.onblur = function () {
@@ -53,7 +53,7 @@ window.addEventListener('mousedown', (e) => {
   WTGM.touchStart = new Date().getTime();
   touchHandler(e);
 });
-$('canvas').on('mousemove', (e) => {
+document.querySelector('canvas').addEventListener('mousemove', (e) => {
   touchHandler(e);
 });
 window.addEventListener('mouseup', (e) => {

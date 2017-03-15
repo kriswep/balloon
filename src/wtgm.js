@@ -1,6 +1,6 @@
 /* globals window document Image localStorage */
 
-import $ from 'jquery/dist/jquery.min';
+// import $ from 'jquery/dist/jquery.min';
 import wtBalloon from './wtballoon';
 import wtMessage from './wtmessage';
 import requestAnimFrame from './helpers/animationFrame';
@@ -251,13 +251,18 @@ const WTGM = {
     // WTGM.score = 0;
     // WTGM.life = 2*WTGM.mode;
     WTGM.paused = 1;
-    $('.startGame').text('Spiel starten');
-
-    $('.inGameOption').hide();
-    $('.inMenuOption').show();
-    $('.ui').removeClass('gameRunning');
-    $('.ui').show();
-    $('.openMenu').hide();
+    // $('.startGame').text('Spiel starten');
+    document.querySelector('.startGame').textContent = 'Spiel starten';
+    document.querySelector('.inGameOption').style.display = 'none';
+    // $('.inGameOption').hide();
+    // $('.inMenuOption').show();
+    // document.querySelector('.inMenuOption').style.display = '';
+    // $('.ui').removeClass('gameRunning');
+    document.querySelector('.ui').classList.remove('gameRunning');
+    // $('.ui').show();
+    document.querySelector('.ui').style.display = '';
+    // $('.openMenu').hide();
+    document.querySelector('.openMenu').style.display = 'none';
 
     WTGM.setScore();
   },
