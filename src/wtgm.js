@@ -1,8 +1,6 @@
 /* globals window document Image localStorage */
-
-// import $ from 'jquery/dist/jquery.min';
-import wtBalloon from './wtballoon';
-import wtMessage from './wtmessage';
+import WtBalloon from './wtballoon';
+import WtMessage from './wtmessage';
 import requestAnimFrame from './helpers/animationFrame';
 
 const WTGM = {
@@ -150,9 +148,9 @@ const WTGM = {
     }, 1);
   },
 
-  handleMouseDown(x, y) {
+  // handleMouseDown(x, y) {
 
-  },
+  // },
 
   translatePixels(x, y) {
     this.x = (x - WTGM.offset.left) / WTGM.scale;
@@ -172,39 +170,65 @@ const WTGM = {
    */
   handleTouch(x, y) {
     // var hit = 0;
-    let pos = WTGM.translatePixels(x, y);
+    const pos = WTGM.translatePixels(x, y);
+    const time = new Date().getTime();
+    let addScore = 0;
     WTGM.touchX = pos.x;
     WTGM.touchY = pos.y;
-    let time = new Date().getTime();
-    let addScore = 0;
     if (time - WTGM.touchStart > 300) {
       // Zeit um Bonus zu bekommen!
       WTGM.handleTouchEnd();
     }
     // Hit?
     if (WTGM.touching) {
-      for (let i = 0; i < WTGM.objects.length; i++) {
-        if (WTGM.objects[i].isInside(pos.x, pos.y)) {
+      // [].re
+      WTGM.objects = WTGM.objects.reduce((newObjects, object) => {
+        const newObject = Object.assign({}, object);
+        if (newObject.isInside(pos.x, pos.y)) {
           if (time - WTGM.touchStart <= 300) {
             // Zeit um Bonus zu bekommen!
             WTGM.hit += 1;
           } else {
             WTGM.hit = 1;
           }
-          addScore = WTGM.objects[i].score * WTGM.hit;
+          addScore = newObject.score * WTGM.hit;
           WTGM.score += addScore;
-          WTGM.objects[i].remove = true;
+          newObject.remove = true;
           if (WTGM.hit > 1) {
-            var message = new wtMessage(`+${Math.round(addScore / 100)}(x${WTGM.hit})`, pos.x, pos.y, '#118811', WTGM);
+            const message = new WtMessage(`+${Math.round(addScore / 100)}(x${WTGM.hit})`, pos.x, pos.y, '#118811', WTGM);
+            newObjects.push(message);
           } else {
-            var message = new wtMessage(`+${Math.round(addScore / 100)}`, pos.x, pos.y, '#118811', WTGM);
+            const message = new WtMessage(`+${Math.round(addScore / 100)}`, pos.x, pos.y, '#118811', WTGM);
+            newObjects.push(message);
           }
-          WTGM.objects.push(message);
-        } else {
         }
-      }
+        newObjects.push(newObject);
+        return newObjects;
+      }, []);
+      // for (let i = 0; i < WTGM.objects.length; i++) {
+      //   if (WTGM.objects[i].isInside(pos.x, pos.y)) {
+      //     if (time - WTGM.touchStart <= 300) {
+      //       // Zeit um Bonus zu bekommen!
+      //       WTGM.hit += 1;
+      //     } else {
+      //       WTGM.hit = 1;
+      //     }
+      //     addScore = WTGM.objects[i].score * WTGM.hit;
+      //     WTGM.score += addScore;
+      //     WTGM.objects[i].remove = true;
+      //     if (WTGM.hit > 1) {
+      //       const message = new WtMessage(`+${Math.round(addScore / 100)}(x${WTGM.hit})`,
+      // pos.x, pos.y, '#118811', WTGM);
+      //       WTGM.objects.push(message);
+      //     } else {
+      //       const message = new WtMessage(`+${Math.round(addScore / 100)}`,
+      // pos.x, pos.y, '#118811', WTGM);
+      //       WTGM.objects.push(message);
+      //     }
+      //   }
+      // }
       if (!WTGM.highscoreBroken && Math.round(WTGM.score / 100) > WTGM.highsore) {
-        var message = new wtMessage('Neuer Highscore!', WTGM.touchX, WTGM.touchY - 25, '#118811', WTGM);
+        const message = new WtMessage('Neuer Highscore!', WTGM.touchX, WTGM.touchY - 25, '#118811', WTGM);
         WTGM.objects.push(message);
         WTGM.highscoreBroken = 1;
       }
@@ -217,10 +241,10 @@ const WTGM = {
         // var pos = WTGM.translatePixels(x,y);
         if (WTGM.score - 1000 > 0) {
           WTGM.score -= 1000;
-          let message = new wtMessage('-10', WTGM.touchX, WTGM.touchY, '#881111', WTGM);
+          let message = new WtMessage('-10', WTGM.touchX, WTGM.touchY, '#881111', WTGM);
           WTGM.objects.push(message);
           if (WTGM.highscoreBroken && Math.round(WTGM.score / 100) < WTGM.highsore) {
-            message = new wtMessage('Highscore verloren!', WTGM.touchX, WTGM.touchY - 25, '#881111', WTGM);
+            message = new WtMessage('Highscore verloren!', WTGM.touchX, WTGM.touchY - 25, '#881111', WTGM);
             WTGM.objects.push(message);
             WTGM.highscoreBroken = 0;
           }
@@ -243,44 +267,32 @@ const WTGM = {
     WTGM.highsore = localStorage.getItem(1);
   },
 
-
   endGame() {
-    // WTGM.message = new Array();
-    // WTGM.createObjectTime = 0;
-    // WTGM.objects = new Array();
-    // WTGM.score = 0;
-    // WTGM.life = 2*WTGM.mode;
     WTGM.paused = 1;
-    // $('.startGame').text('Spiel starten');
     document.querySelector('.startGame').textContent = 'Spiel starten';
     document.querySelector('.inGameOption').style.display = 'none';
-    // $('.inGameOption').hide();
-    // $('.inMenuOption').show();
-    // document.querySelector('.inMenuOption').style.display = '';
-    // $('.ui').removeClass('gameRunning');
     document.querySelector('.ui').classList.remove('gameRunning');
-    // $('.ui').show();
     document.querySelector('.ui').style.display = '';
-    // $('.openMenu').hide();
     document.querySelector('.openMenu').style.display = 'none';
 
     WTGM.setScore();
   },
+
   setScore() {
     WTGM.lastPos = -1;
     WTGM.lastScore = Math.round(WTGM.score / 100);
-    let oldScores = new Array();
-    let scores = new Array();
+    const oldScores = [];
+    const scores = [];
     let found = false;
     // Scores auslesen:
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i += 1) {
       oldScores[i] = localStorage.getItem(i + 1);
     }
     // Aktuelle Punkte eintragen:
     // Wenn unser Score Highscore ist, kann es 11 Einträge geben, nur 10 werden gespeichert!
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i < 11; i += 1) {
       if (!found) {
-        if (WTGM.lastScore > oldScores[i] || oldScores[i] == 'null') {
+        if (WTGM.lastScore > oldScores[i] || oldScores[i] === 'null') {
           scores[i] = WTGM.lastScore;
           found = true;
           WTGM.lastPos = i;
@@ -292,10 +304,9 @@ const WTGM = {
       }
     }
     // Scores eintragen:
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i += 1) {
       localStorage.setItem(i + 1, scores[i]);
     }
-
   },
 
   // WTGM is where all entities will be moved
@@ -316,13 +327,13 @@ const WTGM = {
 
 
   // WTGM is where we draw all the entities
-  render(srcX = 0, srcY = 0, destX = WTGM.canvas.width, destY = WTGM.canvas.heigh) {
+  render() {
     WTGM.ctx.clearRect(0, 0, WTGM.canvas.width, WTGM.canvas.height);
     WTGM.ctx.fillStyle = '#2222dd';// '#7c4f22';
     WTGM.ctx.fillRect(0, 0, WTGM.canvas.width, WTGM.canvas.height);
     WTGM.ctx.drawImage(WTGM.back, 0, 0);
     // Objects
-    for (let i = 0; i < WTGM.objects.length; i++) {
+    for (let i = 0; i < WTGM.objects.length; i += 1) {
       WTGM.objects[i].draw(WTGM.ctx);
     }
     // Score
@@ -368,11 +379,10 @@ const WTGM = {
     const time = new Date().getTime();
     if (WTGM.createObjectTime <= time) {
       WTGM.createObjectTime = time + Math.floor(Math.random() * 2000) + 500;
-      const balloon = new wtBalloon(Math.floor(Math.random() * 8), Math.floor(Math.random() * 256),
+      const balloon = new WtBalloon(Math.floor(Math.random() * 8), Math.floor(Math.random() * 256),
         500, Math.floor(Math.random() * 3) + 1, WTGM);
       WTGM.objects.push(balloon);
     }
-
   },
 };
 

@@ -1,5 +1,4 @@
 /* global window document */
-// import $ from 'jquery/dist/jquery.min';
 import WTGM from './wtgm';
 import ResourceLoader, { ResourceType } from './resourceLoader';
 import './ui';
@@ -88,7 +87,7 @@ window.addEventListener('touchend', (e) => {
 // let int = 0;
 // let movedOnce = 0;
 // let dir;
-// $('#moveUp').on(pointer.DOWN, (e) => {
+// document.querySelector('#moveUp').addEventListener(pointer.DOWN, (e) => {
 //   // e.preventDefault();
 //   if (int == 0) {
 //     dir = 0;
@@ -99,7 +98,7 @@ window.addEventListener('touchend', (e) => {
 //     }, 100);
 //   }
 // });
-// $('#moveDown').on(pointer.DOWN, (e) => {
+// document.querySelector('#moveDown').addEventListener(pointer.DOWN, (e) => {
 //   // e.preventDefault();
 //   if (int == 0) {
 //     dir = 1;
@@ -110,7 +109,7 @@ window.addEventListener('touchend', (e) => {
 //     }, 100);
 //   }
 // });
-// $('#moveLeft').on(pointer.DOWN, (e) => {
+// document.querySelector('#moveLeft').addEventListener(pointer.DOWN, (e) => {
 //   // e.preventDefault();
 //   if (int == 0) {
 //     dir = 2;
@@ -121,7 +120,7 @@ window.addEventListener('touchend', (e) => {
 //     }, 100);
 //   }
 // });
-// $('#moveRight').on(pointer.DOWN, (e) => {
+// document.querySelector('#moveRight').addEventListener(pointer.DOWN, (e) => {
 //   // e.preventDefault();
 //   if (int == 0) {
 //     dir = 3;
@@ -132,7 +131,7 @@ window.addEventListener('touchend', (e) => {
 //     }, 100);
 //   }
 // });
-// $('#movement li').on(pointer.UP, (e) => {
+// document.querySelector('#movement li').addEventListener(pointer.UP, (e) => {
 //   if (int != 0) {
 //     window.clearInterval(int);
 //     if (!movedOnce) {
@@ -141,7 +140,7 @@ window.addEventListener('touchend', (e) => {
 //     int = 0;
 //   }
 // });
-// $('#movement').on(pointer.UP, (e) => {
+// document.querySelector('#movement').addEventListener(pointer.UP, (e) => {
 //   e.preventDefault();
 // });
 

@@ -1,4 +1,4 @@
-export default function wtMessage(message, x, y, color, WTGM) {
+export default function WtMessage(message, x, y, color, WTGM) {
   this.message = message;
   this.color = color;
   this.x = x;
