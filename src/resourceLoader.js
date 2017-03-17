@@ -1,3 +1,4 @@
+/* globals Image Audio */
 // ResourceLoader class
 
 export const ResourceType = {
@@ -57,26 +58,28 @@ ResourceLoader.prototype.startPreloading = function () {
         }
 
         break;
+      default:
+        break;
     }
   }
 };
 
 ResourceLoader.prototype.onResourceLoaded = function () {
-  this.resourcesLoaded++;
+  this.resourcesLoaded += 1;
 
-  if (this.onPartial != undefined) {
+  if (this.onPartial !== undefined) {
     this.onPartial();
   }
 
-  if (this.resourcesLoaded == this.resources.length) {
-    if (this.onComplete != undefined) {
+  if (this.resourcesLoaded === this.resources.length) {
+    if (this.onComplete !== undefined) {
       this.onComplete();
     }
   }
 };
 
 ResourceLoader.prototype.isLoadComplete = function () {
-  if (this.resources.length == this.resourcesLoaded) {
+  if (this.resources.length === this.resourcesLoaded) {
     return true;
   }
 
