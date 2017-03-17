@@ -16,14 +16,7 @@
   "env": {
     "browser": true
   },
-  "_scripts": {
-    "dev": "browser-sync start -s -f '*.html' 'res/**'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gen-sw-dev": "sw-precache --config=build/sw-precache-config.json --verbose --no-handle-fetch",
-    "gen-sw": "sw-precache --config=build/sw-precache-config.json"
-  },
   "scripts": {
-    "_prebuild": "npm run lint && npm test && npm run cleanclient",
     "prebuild": "npm run cleanclient",
     "build": "webpack -p",
     "cleanclient": "del 'dist/*.js' 'dist/*.js.*' 'dist/*.html'",
@@ -34,7 +27,6 @@
     "fulltest": "parallelshell \"npm run lint:watch\" \"npm run test:watch\"",
     "lint": "eslint \"./src\"",
     "lint:watch": "watch \"npm run lint\" ./src",
-    "_prestart": "npm run fulltest && npm run build",
     "prestart": "npm run build",
     "start": "browser-sync start -s -f 'dist/**'",
     "test": "babel-node --presets env node_modules/.bin/tape \"./src/**/*.spec.js\" | faucet",
@@ -75,7 +67,6 @@
   "author": "kriswep",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
