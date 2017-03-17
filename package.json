@@ -18,7 +18,7 @@
   },
   "scripts": {
     "prebuild": "npm run cleanclient",
-    "build": "webpack -p",
+    "build": "NODE_ENV=production webpack -p",
     "cleanclient": "del 'dist/*.js' 'dist/*.js.*' 'dist/*.html'",
     "coverage": "nyc npm test",
     "coverage:watch": "watch \"npm run coverage\" ./src",

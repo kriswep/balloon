@@ -376,7 +376,6 @@ const WTGM = {
    *
    */
   generateBalloon() {
-    console.log('d');
     const time = new Date().getTime();
     if (WTGM.createObjectTime <= time) {
       WTGM.createObjectTime = time + Math.floor(Math.random() * 2000) + 500;
