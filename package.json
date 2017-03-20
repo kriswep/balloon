@@ -23,7 +23,7 @@
     "coverage": "nyc npm test",
     "coverage:watch": "watch \"npm run coverage\" ./src",
     "coverage-report": "nyc report --reporter=text",
-    "dev": "webpack-dev-server --inline --hot",
+    "dev": "webpack-dev-server --inline",
     "fulltest": "parallelshell \"npm run lint:watch\" \"npm run test:watch\"",
     "lint": "eslint \"./src\"",
     "lint:watch": "watch \"npm run lint\" ./src",
