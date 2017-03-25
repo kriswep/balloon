@@ -19,6 +19,7 @@
     "prestart": "npm run build",
     "start": "browser-sync start -s -f 'dist/**'",
     "test": "jest",
+    "test:debug":"node --debug-brk ./node_modules/.bin/jest --runInBand",
     "test:watch": "jest --watch"
   },
   "jest": {
