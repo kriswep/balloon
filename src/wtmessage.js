@@ -1,22 +1,22 @@
 export default function WtMessage(message, x, y, color, WTGM) {
-  this.message = message;
-  this.color = color;
-  this.x = x;
-  this.y = y;
-  this.remove = 0;
-  this.insertTime = new Date().getTime();
-
-
-  this.draw = () => {
-    WTGM.Draw.text(this.message, this.x, this.y, 24, this.color);
+  return {
+    message,
+    color,
+    x,
+    y,
+    remove: 0,
+    insertTime: new Date().getTime(),
+    draw() {
+      WTGM.Draw.text(this.message, this.x, this.y, 24, this.color);
+    },
+    update() {
+      const time = new Date().getTime();
+      if (time - this.insertTime > 700) {
+        this.remove = 1;
+      }
+    },
+    isInside() {
+      return false;
+    },
   };
-
-  this.update = function update() {
-    const time = new Date().getTime();
-    if (time - this.insertTime > 700) {
-      this.remove = 1;
-    }
-  };
-
-  this.isInside = () => false;
 }
