@@ -1,9 +1,15 @@
 /* globals test jest expect */
 import WtBalloon from './wtballoon';
 
-const getUpdatedProp = (obj, prop) => {
+const getUpdatedProps = (obj, prop) => {
   obj.update();
-  return obj[prop];
+  return prop.reduce((prev, currentProp) => {
+    const newObject = {};
+    newObject[currentProp] = obj[currentProp];
+    return Object.assign({}, prev,
+      newObject,
+    );
+  }, {});
 };
 
 const WTGM = {
@@ -96,24 +102,88 @@ test('WtBalloon draw should draw balloon at its position', () => {
   expect(context.drawImage.mock.calls[0]).toEqual(expected7);
 });
 
-// TODO: test update!!
-// test('WtBalloon should update', () => {
-//   const msg = new WtBalloon();
-//   // Should not have remove prop directly
-//   expect(
-//     getUpdatedProp(msg, 'remove'),
-//   ).toBeFalsy();
+test('WtBalloon should update regularly at high fps', () => {
+  const balloon = new WtBalloon(0, 700, 500, 5, WTGM);
 
-//   // Should set its remove prop after some time
-//   // lets just fake the time
-//   global.Date = jest.fn();
-//   global.Date.mockImplementation(() => ({
-//     getTime: () => msg.insertTime + 701,
-//   }));
-//   expect(
-//     getUpdatedProp(msg, 'remove'),
-//   ).toBeTruthy();
-// });
+  // lets just fake the time
+  global.Date = jest.fn();
+  global.Date.mockImplementation(() => ({
+    getTime: () => balloon.lastUpdate + 10,
+  }));
+  const actual = getUpdatedProps(balloon, ['x', 'y']);
+  expect(
+    actual.x,
+  ).not.toBe(700);
+  expect(
+    actual.y,
+  ).toBeLessThan(500);
+});
+
+test('WtBalloon should remove than it leaves the screen', () => {
+  // lets do a highspeed ballon, which leaves screen on first render
+  const balloon = new WtBalloon(0, 700, 500, 600, WTGM);
+
+  // lets just fake the time
+  global.Date = jest.fn();
+  global.Date.mockImplementation(() => ({
+    getTime: () => balloon.lastUpdate + 10,
+  }));
+  const actual = getUpdatedProps(balloon, ['y', 'remove']);
+  expect(
+    actual.remove,
+  ).toBeTruthy();
+  expect(
+    actual.y,
+  ).toBeLessThan(0);
+});
+
+test('WtBalloon should not update at low fps', () => {
+  const balloon = new WtBalloon(0, 700, 500, 5, WTGM);
+
+  // lets just fake the time
+  global.Date = jest.fn();
+  global.Date.mockImplementation(() => ({
+    getTime: () => balloon.lastUpdate + 90,
+  }));
+  // do it several times to trigger branch
+  expect(
+    getUpdatedProps(balloon, ['x', 'y', 'pauseFrame']),
+  ).toEqual({ x: 700, y: 500, pauseFrame: 1 });
+  expect(
+    getUpdatedProps(balloon, ['x', 'y', 'pauseFrame']),
+  ).toEqual({ x: 700, y: 500, pauseFrame: 2 });
+  expect(
+    getUpdatedProps(balloon, ['x', 'y', 'pauseFrame']),
+  ).toEqual({ x: 700, y: 500, pauseFrame: 3 });
+  expect(
+    getUpdatedProps(balloon, ['x', 'y', 'pauseFrame']),
+  ).toEqual({ x: 700, y: 500, pauseFrame: 4 });
+  expect(
+    getUpdatedProps(balloon, ['x', 'y', 'pauseFrame']),
+  ).toEqual({ x: 700, y: 500, pauseFrame: 5 });
+  expect(
+    getUpdatedProps(balloon, ['x', 'y', 'pauseFrame']),
+  ).toEqual({ x: 700, y: 500, pauseFrame: 0 });
+});
+
+test('WtBalloon should not update when paused', () => {
+  const PausedWTGM = {
+    tex: 'tex',
+    paused: 1,
+    life: 10,
+  };
+  const balloon = new WtBalloon(0, 700, 500, 5, PausedWTGM);
+
+  // lets just fake the time
+  global.Date = jest.fn();
+  global.Date.mockImplementation(() => ({
+    getTime: () => balloon.lastUpdate + 10,
+  }));
+  expect(
+    getUpdatedProps(balloon, ['x', 'y']),
+  ).toEqual({ x: 700, y: 500 });
+});
+
 
 test('WtBalloon isInside should check if point is inside balloon', () => {
   const balloon = new WtBalloon(0, 700, 500, 5, WTGM);
