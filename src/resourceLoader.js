@@ -3,7 +3,7 @@
 
 export const ResourceType = {
   IMAGE: 0,
-  SOUND: 1,
+  // SOUND: 1,
 };
 
 export default function ResourceLoader(onPartial, onComplete) {
@@ -20,47 +20,50 @@ export default function ResourceLoader(onPartial, onComplete) {
 }
 
 ResourceLoader.prototype.addResource = function (filePath, fileType, resourceType) {
-  const res = {
-    filePath,
-    fileType,
-    resourceType,
-  };
+  if (resourceType === ResourceType.IMAGE) {
+    const res = {
+      filePath,
+      fileType,
+      resourceType,
+    };
 
-  this.resources.push(res);
+    this.resources.push(res);
+  }
 };
 
 ResourceLoader.prototype.startPreloading = function () {
   for (let i = 0, len = this.resources.length; i < len; i++) {
-    switch (this.resources[i].resourceType) {
-      case ResourceType.IMAGE:
-        var img = new Image();
-        var rl = this;
+    // switch (this.resources[i].resourceType) {
+    //   case ResourceType.IMAGE:
+    var img = new Image();
+    var rl = this;
+    img.addEventListener('load', () => {
+      rl.onResourceLoaded();
+    }, false);
+    img.src = this.resources[i].filePath;
+    // break;
+    // case ResourceType.SOUND:
+    //   var a = new Audio();
 
-        img.src = this.resources[i].filePath;
-        img.addEventListener('load', () => { rl.onResourceLoaded(); }, false);
-        break;
-      case ResourceType.SOUND:
-        var a = new Audio();
+    //   // Only preload sound files that we can play.
+    //   if (a.canPlayType(this.resources[i].fileType) === 'probably') {
+    //     a.src = this.resources[i].filePath;
+    //     a.type = this.resources[i].fileType;
 
-        // Only preload sound files that we can play.
-        if (a.canPlayType(this.resources[i].fileType) === 'probably') {
-          a.src = this.resources[i].filePath;
-          a.type = this.resources[i].fileType;
+    //     var rl = this;
+    //     a.addEventListener('canplaythrough', function () {
+    //       a.removeEventListener('canplaythrough', arguments.callee, false);
+    //       rl.onResourceLoaded();
+    //     }, false);
+    //   } else {
+    //     // Can't play the sound. Assume that the resource is loaded.
+    //     this.onResourceLoaded();
+    //   }
 
-          var rl = this;
-          a.addEventListener('canplaythrough', function () {
-            a.removeEventListener('canplaythrough', arguments.callee, false);
-            rl.onResourceLoaded();
-          }, false);
-        } else {
-          // Can't play the sound. Assume that the resource is loaded.
-          this.onResourceLoaded();
-        }
-
-        break;
-      default:
-        break;
-    }
+    //   break;
+    // default:
+    //   break;
+    // }
   }
 };
 
@@ -82,6 +85,5 @@ ResourceLoader.prototype.isLoadComplete = function () {
   if (this.resources.length === this.resourcesLoaded) {
     return true;
   }
-
   return false;
 };
