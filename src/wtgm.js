@@ -394,7 +394,6 @@ WTGM.Draw = {
     WTGM.ctx.clearRect(0, 0, WTGM.WIDTH, WTGM.HEIGHT);
   },
 
-
   rect(x, y, w, h, col) {
     WTGM.ctx.fillStyle = col;
     WTGM.ctx.fillRect(x, y, w, h);
