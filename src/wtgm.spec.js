@@ -39,12 +39,73 @@ test('WTGM should be able to translate Pixels', () => {
     .toEqual({ x: 31.25, y: 37.5 });
 });
 
-// tocuh handling
+// touch handling
 test('WTGM should handle touch', () => {
   expect(WTGM.handleTouch.bind(WTGM, 10, 20)).not.toThrow();
-  // Todo: trigger to convice WTGM it is touched
-  // WTGM.touching = 1;
-  // expect(WTGM.handleTouch.bind(WTGM, 10, 20)).not.toThrow();
+
+  // convice WTGM it is touched, but end touch directly
+  WTGM.touching = 1;
+  WTGM.touchStart = new Date().getTime();
+  expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
+  expect(WTGM.touching).toBeFalsy();
+
+  // add mocked objects
+  WTGM.objects.push({
+    isInside: jest.fn().mockReturnValue(true),
+    score: 101,
+  });
+  WTGM.objects.push({
+    isInside: jest.fn().mockReturnValue(true),
+    score: 200,
+  });
+  WTGM.objects.push({
+    isInside: jest.fn().mockReturnValue(false),
+    score: 300,
+  });
+  // convice WTGM it is touched, and touch
+  WTGM.touching = 1;
+  WTGM.touchStart = new Date().getTime();
+  expect(WTGM.handleTouch.bind(WTGM, 10, 20)).not.toThrow();
+  expect(WTGM.hit).toBe(2);
+  // end current touches
+  expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
+  expect(WTGM.score).toBe(101 + (200 * 2));
+  expect(WTGM.objects
+    .filter(obj => obj.remove).length,
+  ).toBe(2);
+
+  // break highscore
+  WTGM.highsore = 1;
+  // convice WTGM it is touched, and touch
+  WTGM.touching = 1;
+  WTGM.touchStart = new Date().getTime();
+  expect(WTGM.handleTouch.bind(WTGM, 10, 20)).not.toThrow();
+  // end current touches
+  expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
+  expect(WTGM.highscoreBroken).toBeTruthy();
+
+
+  // end missed touch, only if touch is running...
+  WTGM.touching = 0;
+  expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
+  expect(WTGM.score).toBe(1002);
+
+  // end missed touch, should lose some points...
+  WTGM.touching = 1;
+  expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
+  expect(WTGM.score).toBe(2);
+});
+
+// should generate balloons
+test('WTGM should generate balloons', () => {
+  WTGM.objects = [];
+  expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
+  expect(WTGM.objects.length).toBe(1);
+  expect(WTGM.objects[0].balloonNumber).toBeDefined();
+
+  // should not add right away
+  expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
+  expect(WTGM.objects.length).toBe(1);
 });
 
 // draw helpers
