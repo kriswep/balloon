@@ -386,7 +386,7 @@ const WTGM = {
   },
 };
 
-window.WTGM = WTGM;
+// window.WTGM = WTGM;
 
 WTGM.Draw = {
 

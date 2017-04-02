@@ -31,6 +31,22 @@ test('WTGM should be initialisable', () => {
   // expect(WTGM.endGame).not.toThrow();
 });
 
+// pixels should be translated to canvas
+test('WTGM should be able to translate Pixels', () => {
+  expect(WTGM.translatePixels(10, 20))
+    .toEqual({ x: 6.25, y: 12.5 });
+  expect(WTGM.translatePixels(50, 60))
+    .toEqual({ x: 31.25, y: 37.5 });
+});
+
+// tocuh handling
+test('WTGM should handle touch', () => {
+  expect(WTGM.handleTouch.bind(WTGM, 10, 20)).not.toThrow();
+  // Todo: trigger to convice WTGM it is touched
+  // WTGM.touching = 1;
+  // expect(WTGM.handleTouch.bind(WTGM, 10, 20)).not.toThrow();
+});
+
 // draw helpers
 test('WTGM should provide draw helpers', () => {
   expect(WTGM.Draw).toBeDefined();
