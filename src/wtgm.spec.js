@@ -3,7 +3,7 @@ import WTGM from './wtgm';
 
 // small localStorage mock
 global.localStorage = {
-  getItem: jest.fn(),
+  getItem: jest.fn(() => 0),
   setItem: jest.fn(),
 };
 
@@ -19,6 +19,7 @@ test('WTGM should have it\'s necessary functions', () => {
 
 // smoke test
 test('WTGM should be initialisable', () => {
+  jest.useFakeTimers();
   const cvs = document.createElement('canvas');
   document.body.appendChild(cvs);
   function preloadResources(canvas, callback) {
@@ -26,9 +27,9 @@ test('WTGM should be initialisable', () => {
   }
   expect(WTGM.init.bind(null, preloadResources)).not.toThrow();
   expect(WTGM.startGame).not.toThrow();
-  // TODO: needs improvement, mocking of DOM elements
-  // expect(WTGM.loop).not.toThrow();
-  // expect(WTGM.endGame).not.toThrow();
+
+  jest.runTimersToTime(10);
+  jest.useRealTimers();
 });
 
 // pixels should be translated to canvas
@@ -51,15 +52,15 @@ test('WTGM should handle touch', () => {
 
   // add mocked objects
   WTGM.objects.push({
-    isInside: jest.fn().mockReturnValue(true),
+    isInside: jest.fn(() => true),
     score: 101,
   });
   WTGM.objects.push({
-    isInside: jest.fn().mockReturnValue(true),
+    isInside: jest.fn(() => true),
     score: 200,
   });
   WTGM.objects.push({
-    isInside: jest.fn().mockReturnValue(false),
+    isInside: jest.fn(() => false),
     score: 300,
   });
   // convice WTGM it is touched, and touch
@@ -91,13 +92,158 @@ test('WTGM should handle touch', () => {
   expect(WTGM.score).toBe(1002);
 
   // end missed touch, should lose some points...
+  WTGM.highscoreBroken = 0;
   WTGM.touching = 1;
   expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
   expect(WTGM.score).toBe(2);
+
+  // end missed touch, should lose some points...
+  WTGM.touching = 1;
+  WTGM.highscoreBroken = 1;
+  WTGM.highsore = 1000;
+  WTGM.score = 1001;
+  expect(WTGM.handleTouchEnd.bind(WTGM)).not.toThrow();
+  expect(WTGM.highscoreBroken).toBeFalsy();
+});
+
+// endGame
+test('WTGM endGame schould update ui', () => {
+  WTGM.paused = 0;
+  // fake ui
+  const startGame = document.createElement('div');
+  const inGameOption = document.createElement('div');
+  const ui = document.createElement('div');
+  const openMenu = document.createElement('div');
+  startGame.classList.add('startGame');
+  inGameOption.classList.add('inGameOption');
+  ui.classList.add('ui', 'gameRunning');
+  openMenu.classList.add('openMenu');
+  document.body.appendChild(startGame);
+  document.body.appendChild(inGameOption);
+  document.body.appendChild(ui);
+  document.body.appendChild(openMenu);
+
+  // call
+  expect(WTGM.endGame.bind(WTGM)).not.toThrow();
+
+  // assert
+  expect(WTGM.paused).toBeTruthy();
+  expect(document.querySelector('.startGame').textContent)
+    .toBe('Spiel starten');
+  expect(document.querySelector('.inGameOption').style.display)
+    .toBe('none');
+  expect(document.querySelector('.ui').classList.contains('gameRunning'))
+    .toBe(false);
+  expect(document.querySelector('.ui').style.display)
+    .toBe('');
+  expect(document.querySelector('.openMenu').style.display)
+    .toBe('none');
+});
+
+// setScore
+test('WTGM should set score', () => {
+  global.localStorage.getItem.mockClear();
+  global.localStorage.setItem.mockClear();
+  WTGM.score = 100;
+  // call
+  expect(WTGM.setScore.bind(WTGM)).not.toThrow();
+  // should have read and set localStorage 10 times
+  expect(global.localStorage.getItem.mock.calls.length)
+    .toBe(10);
+  expect(global.localStorage.setItem.mock.calls.length)
+    .toBe(10);
+  expect(global.localStorage.setItem.mock.calls[0])
+    .toEqual([1, 100 / 100]); // thats our highscore
+});
+
+// update
+test('WTGM should update its objects', () => {
+  WTGM.objects = [];
+  // update should end Game
+  WTGM.paused = 0;
+  WTGM.life = 0;
+  expect(WTGM.update.bind(WTGM)).not.toThrow();
+  expect(WTGM.paused).toBeTruthy();
+
+  // add mocked objects
+  WTGM.objects = [];
+  WTGM.objects.push({
+    update: jest.fn(),
+    remove: false,
+  });
+  WTGM.objects.push({
+    update: jest.fn(),
+    remove: true,
+  });
+  WTGM.life = 1;
+  expect(WTGM.update.bind(WTGM)).not.toThrow();
+
+  // should have called objects update
+  expect(WTGM.objects[0].update.mock.calls.length).toBe(1);
+  // should have removed objects to remove
+  expect(WTGM.objects.length).toBe(1);
+});
+
+// render
+test('WTGM should render to canvas', () => {
+  // mock ctx
+  WTGM.ctx = jest.fn();
+  WTGM.ctx.clearRect = jest.fn();
+  WTGM.ctx.fillRect = jest.fn();
+  WTGM.ctx.drawImage = jest.fn();
+  WTGM.ctx.fillText = jest.fn();
+  // add mocked objects
+  WTGM.objects = [];
+  WTGM.objects.push({
+    draw: jest.fn(),
+  });
+  expect(WTGM.render.bind(WTGM)).not.toThrow();
+
+  expect(WTGM.ctx.clearRect.mock.calls[0])
+    .toEqual([0, 0, WTGM.WIDTH, WTGM.HEIGHT]);
+  expect(WTGM.ctx.fillRect.mock.calls[0])
+    .toEqual([0, 0, WTGM.WIDTH, WTGM.HEIGHT]);
+  expect(WTGM.ctx.drawImage.mock.calls.length)
+    .toBeGreaterThan(0);
+  expect(WTGM.ctx.fillText.mock.calls.length)
+    .toBeGreaterThan(0);
+
+  expect(WTGM.objects[0].draw.mock.calls.length).toBe(1);
+
+  WTGM.ctx.clearRect.mockClear();
+  WTGM.ctx.fillRect.mockClear();
+  WTGM.ctx.drawImage.mockClear();
+  WTGM.ctx.fillText.mockClear();
+
+  // draw fps should not throw
+  WTGM.showFps = 1;
+  expect(WTGM.render.bind(WTGM)).not.toThrow();
+
+  WTGM.ctx.clearRect.mockClear();
+  WTGM.ctx.fillRect.mockClear();
+  WTGM.ctx.drawImage.mockClear();
+  WTGM.ctx.fillText.mockClear();
+});
+
+// loop
+test('WTGM should have a loop function', () => {
+  WTGM.objects = [];
+  WTGM.paused = 0;
+  WTGM.showFps = 1;
+  // loop should call update and render,
+  // which we already tested
+  expect(WTGM.loop.bind(WTGM)).not.toThrow();
+
+  // we just test fps,
+  // which is quite high with this mock data
+  WTGM.lastFrame = new Date().getTime() - 1;
+  expect(WTGM.loop.bind(WTGM)).not.toThrow();
+  expect(WTGM.fps).toBeGreaterThan(60);
 });
 
 // should generate balloons
 test('WTGM should generate balloons', () => {
+  WTGM.createObjectTime = new Date().getTime();
   WTGM.objects = [];
   expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
   expect(WTGM.objects.length).toBe(1);

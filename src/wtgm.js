@@ -185,12 +185,12 @@ const WTGM = {
       WTGM.objects = WTGM.objects.reduce((newObjects, object) => {
         const newObject = Object.assign({}, object);
         if (newObject.isInside(pos.x, pos.y)) {
-          if (time - WTGM.touchStart <= 300) {
-            // Zeit um Bonus zu bekommen!
-            WTGM.hit += 1;
-          } else {
-            WTGM.hit = 1;
-          }
+          // if (time - WTGM.touchStart <= 300) {
+          // Zeit um Bonus zu bekommen!
+          WTGM.hit += 1;
+          // } else {
+          //   WTGM.hit = 1;
+          // }
           addScore = newObject.score * WTGM.hit;
           WTGM.score += addScore;
           newObject.remove = true;
@@ -205,28 +205,7 @@ const WTGM = {
         newObjects.push(newObject);
         return newObjects;
       }, []);
-      // for (let i = 0; i < WTGM.objects.length; i++) {
-      //   if (WTGM.objects[i].isInside(pos.x, pos.y)) {
-      //     if (time - WTGM.touchStart <= 300) {
-      //       // Zeit um Bonus zu bekommen!
-      //       WTGM.hit += 1;
-      //     } else {
-      //       WTGM.hit = 1;
-      //     }
-      //     addScore = WTGM.objects[i].score * WTGM.hit;
-      //     WTGM.score += addScore;
-      //     WTGM.objects[i].remove = true;
-      //     if (WTGM.hit > 1) {
-      //       const message = new WtMessage(`+${Math.round(addScore / 100)}(x${WTGM.hit})`,
-      // pos.x, pos.y, '#118811', WTGM);
-      //       WTGM.objects.push(message);
-      //     } else {
-      //       const message = new WtMessage(`+${Math.round(addScore / 100)}`,
-      // pos.x, pos.y, '#118811', WTGM);
-      //       WTGM.objects.push(message);
-      //     }
-      //   }
-      // }
+
       if (!WTGM.highscoreBroken && Math.round(WTGM.score / 100) > WTGM.highsore) {
         const message = new WtMessage('Neuer Highscore!', WTGM.touchX, WTGM.touchY - 25, '#118811', WTGM);
         WTGM.objects.push(message);
