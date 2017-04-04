@@ -2,7 +2,13 @@
 import WTGM from './wtgm';
 
 
-function ready(fn) {
+export function addListenerMulti(el, s, fn) {
+  if (el && s && fn) {
+    s.split(' ').forEach(e => el.addEventListener(e, fn, false));
+  }
+}
+
+export function ready(fn) {
   if (document.readyState !== 'loading') {
     fn();
   } else {
@@ -10,13 +16,7 @@ function ready(fn) {
   }
 }
 
-function addListenerMulti(el, s, fn) {
-  if (el && s && fn) {
-    s.split(' ').forEach(e => el.addEventListener(e, fn, false));
-  }
-}
-
-const initUI = () => {
+export const initUI = () => {
   addListenerMulti(document.querySelector('.startGame'), 'mousedown touchstart', (e) => {
     e.preventDefault();
     WTGM.setScore();
