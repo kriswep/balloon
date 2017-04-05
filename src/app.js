@@ -9,9 +9,8 @@ import './css/ui.css';
 // import './img/sprite.png';
 // import './img/back.png';
 
-function preloadResources(canvas, callback) {
+export default function preloadResources(canvas, callback) {
   // const c = canvas.getContext('2d');
-
   function printProgressBar() {
   }
 
@@ -31,12 +30,12 @@ window.addEventListener('resize', WTGM.resize);
 window.addEventListener('keydown', WTGM.handleKeyDown);
 
 
-window.onblur = function () {
-  // console.log('lostBlur');
-};
-window.focusout = function () {
-  // console.log('lostFocus');
-};
+// window.onblur = function () {
+//   // console.log('lostBlur');
+// };
+// window.focusout = function () {
+//   // console.log('lostFocus');
+// };
 
 
 function touchEndHandler() {

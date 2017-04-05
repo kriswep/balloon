@@ -113,5 +113,4 @@ test('UI should init its UI', () => {
   WTGM.hit = 1;
   resumeGame.dispatchEvent(event);
   expect(WTGM.hit).toBeTruthy();
-
 });
