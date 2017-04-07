@@ -16,6 +16,7 @@ const WTGM = {
   tex: 'tex',
   paused: 0,
   life: 10,
+  decreaseLife: jest.fn(),
 };
 
 test('WtBalloon should have draw, update and isInside function', () => {
@@ -135,6 +136,7 @@ test('WtBalloon should remove than it leaves the screen', () => {
   expect(
     actual.y,
   ).toBeLessThan(0);
+  expect(WTGM.decreaseLife).toBeCalled();
 });
 
 test('WtBalloon should not update at low fps', () => {

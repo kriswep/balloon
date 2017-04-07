@@ -363,6 +363,15 @@ const WTGM = {
       WTGM.objects.push(balloon);
     }
   },
+
+  /**
+   * decrease life by quantity
+   *
+   * @param {number} [quantity=1]
+   */
+  decreaseLife(quantity = 1) {
+    WTGM.life -= quantity;
+  },
 };
 
 // window.WTGM = WTGM;

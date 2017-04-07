@@ -254,6 +254,17 @@ test('WTGM should generate balloons', () => {
   expect(WTGM.objects.length).toBe(1);
 });
 
+// decrease life
+test('WTGM should have a helper to decrease life', () => {
+  WTGM.life = 10;
+  WTGM.decreaseLife();
+  expect(WTGM.life).toBe(9);
+  WTGM.decreaseLife(0);
+  expect(WTGM.life).toBe(9);
+  WTGM.decreaseLife(9);
+  expect(WTGM.life).toBe(0);
+});
+
 // draw helpers
 test('WTGM should provide draw helpers', () => {
   expect(WTGM.Draw).toBeDefined();

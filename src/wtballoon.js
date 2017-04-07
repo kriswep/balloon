@@ -65,12 +65,12 @@ export default function wtBalloon(balloonNumber, x, y, speed, WTGM) {
   this.score = (30000 * this.speed) / this.width;
   this.slowFps = 0;
 
-  this.draw = function (context) {
+  this.draw = function draw(context) {
     context.drawImage(WTGM.tex, this.horizontalOffset, this.verticalOffset,
       this.width * 2, this.height * 2, this.x, this.y, this.width, this.height);
   };
 
-  this.update = function () {
+  this.update = function update() {
     if (!WTGM.paused) {
       const time = new Date().getTime();
       const lastFrameTime = time - this.lastUpdate;
@@ -89,12 +89,12 @@ export default function wtBalloon(balloonNumber, x, y, speed, WTGM) {
 
       if (this.y < -this.width) {
         this.remove = 1;
-        WTGM.life -= 1;
+        WTGM.decreaseLife(1);
       }
     }
   };
 
-  this.isInside = function (xP, yP) {
+  this.isInside = function isInside(xP, yP) {
     if (this.remove) {
       return false;
     }

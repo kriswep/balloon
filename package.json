@@ -40,6 +40,7 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "no-param-reassign": ["warning", { "props": false }],
     "plugins": [
       "import"
     ]
