@@ -34,7 +34,6 @@ test('app should kickoff resource preloading', (done) => {
 });
 
 test('app should add event listeners', () => {
-  expect(false).toBeTruthy();
   WTGM.touching = 0;
   const mousedownEvent = new Event('mousedown');
   window.dispatchEvent(mousedownEvent);
