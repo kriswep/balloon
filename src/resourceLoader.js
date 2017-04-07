@@ -19,7 +19,7 @@ export default function ResourceLoader(onPartial, onComplete) {
   }
 }
 
-ResourceLoader.prototype.addResource = function (filePath, fileType, resourceType) {
+ResourceLoader.prototype.addResource = function addResource(filePath, fileType, resourceType) {
   if (resourceType === ResourceType.IMAGE) {
     const res = {
       filePath,
@@ -31,15 +31,12 @@ ResourceLoader.prototype.addResource = function (filePath, fileType, resourceTyp
   }
 };
 
-ResourceLoader.prototype.startPreloading = function () {
-  for (let i = 0, len = this.resources.length; i < len; i++) {
+ResourceLoader.prototype.startPreloading = function startPreloading() {
+  for (let i = 0, len = this.resources.length; i < len; i += 1) {
     // switch (this.resources[i].resourceType) {
     //   case ResourceType.IMAGE:
-    var img = new Image();
-    var rl = this;
-    img.addEventListener('load', () => {
-      rl.onResourceLoaded();
-    }, false);
+    const img = new Image();
+    img.addEventListener('load', this.onResourceLoaded.bind(this), false);
     img.src = this.resources[i].filePath;
     // break;
     // case ResourceType.SOUND:
@@ -67,7 +64,7 @@ ResourceLoader.prototype.startPreloading = function () {
   }
 };
 
-ResourceLoader.prototype.onResourceLoaded = function () {
+ResourceLoader.prototype.onResourceLoaded = function onResourceLoaded() {
   this.resourcesLoaded += 1;
 
   if (this.onPartial !== undefined) {
@@ -81,7 +78,7 @@ ResourceLoader.prototype.onResourceLoaded = function () {
   }
 };
 
-ResourceLoader.prototype.isLoadComplete = function () {
+ResourceLoader.prototype.isLoadComplete = function isLoadComplete() {
   if (this.resources.length === this.resourcesLoaded) {
     return true;
   }
