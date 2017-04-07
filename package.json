@@ -12,6 +12,7 @@
     "cleanclient": "del 'dist/*.js' 'dist/*.js.*' 'dist/*.html'",
     "coverage": "jest --coverage",
     "coverage:watch": "jest --coverage --watch",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "dev": "webpack-dev-server --inline",
     "fulltest": "parallelshell \"npm run lint:watch\" \"npm run test:watch\"",
     "lint": "eslint \"./src\"",
@@ -40,7 +41,12 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
-    "no-param-reassign": ["warning", { "props": false }],
+    "no-param-reassign": [
+      "warning",
+      {
+        "props": false
+      }
+    ],
     "plugins": [
       "import"
     ]
@@ -59,6 +65,7 @@
     "babel-jest": "^19.0.0",
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
+    "coveralls": "^2.13.0",
     "css-loader": "^0.28.0",
     "del-cli": "^0.2.0",
     "eslint": "^3.9.1",
