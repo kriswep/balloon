@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "npm run cleanclient",
     "build": "NODE_ENV=production webpack -p",
-    "cleanclient": "del 'dist/*.js' 'dist/*.js.*' 'dist/*.html'",
+    "cleanclient": "del 'dist'",
     "coverage": "jest --coverage",
     "coverage:watch": "jest --coverage --watch",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
@@ -65,6 +65,7 @@
     "babel-jest": "^19.0.0",
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
+    "copy-webpack-plugin": "^4.0.1",
     "coveralls": "^2.13.0",
     "css-loader": "^0.28.0",
     "del-cli": "^0.2.0",
@@ -88,5 +89,7 @@
     "webpack-bundle-analyzer": "^2.3.1",
     "webpack-dev-server": "^2.4.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "offline-plugin": "^4.6.2"
+  }
 }

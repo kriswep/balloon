@@ -1,10 +1,51 @@
 /* global window document */
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import WTGM from './wtgm';
 import ResourceLoader, { ResourceType } from './resourceLoader';
 import './ui';
 
 import './css/ml.css';
 import './css/ui.css';
+
+/* eslint-disable no-console */
+export const updateHandler = {
+  onUpdating: () => {
+    console.log('SW Event:', 'onUpdating');
+  },
+  onUpdateReady: () => {
+    console.log('SW Event:', 'onUpdateReady');
+    // Tells to new SW to take control immediately
+    OfflinePluginRuntime.applyUpdate();
+  },
+  onUpdated: () => {
+    console.log('SW Event:', 'onUpdated');
+    // Reload the webpage to load into the new version
+    window.location.reload();
+  },
+  onUpdateFailed: () => {
+    console.log('SW Event:', 'onUpdateFailed');
+  },
+};
+/* eslint-enable no-console */
+OfflinePluginRuntime.install(updateHandler);
+// OfflinePluginRuntime.install({
+//   onUpdating: () => {
+//     console.log('SW Event:', 'onUpdating');
+//   },
+//   onUpdateReady: () => {
+//     console.log('SW Event:', 'onUpdateReady');
+//     // Tells to new SW to take control immediately
+//     OfflinePluginRuntime.applyUpdate();
+//   },
+//   onUpdated: () => {
+//     console.log('SW Event:', 'onUpdated');
+//     // Reload the webpage to load into the new version
+//     window.location.reload();
+//   },
+//   onUpdateFailed: () => {
+//     console.log('SW Event:', 'onUpdateFailed');
+//   },
+// });
 
 // import './img/sprite.png';
 // import './img/back.png';
