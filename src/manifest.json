@@ -5,7 +5,7 @@
   "display": "fullscreen",
   "background_color": "#aeaeae",
   "theme_color": "#63B1F9",
-  "start_url": "index.html",
+  "start_url": "./",
   "icons": [
     {
       "src": "./img/ati-57x57.png",
