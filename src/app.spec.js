@@ -1,6 +1,7 @@
 /* globals test expect jest window document Event */
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import './__helpers__/app.helper';
-import preloadResources from './app';
+import preloadResources, { updateHandler } from './app';
 import WTGM from './wtgm';
 // import ResourceLoader from './resourceLoader';
 
@@ -12,13 +13,12 @@ jest.mock('./wtgm', () =>
 
   }),
 );
-// jest.mock('./resourceLoader', () =>
-//   ({
-//     addResource: jest.fn(),
-//     startPreloading: jest.fn(),
-//     ResourceType: jest.fn(),
-//   }),
-// );
+jest.mock('offline-plugin/runtime', () =>
+  ({
+    install: jest.fn(),
+    applyUpdate: jest.fn(),
+  }),
+);
 
 test('app should kickoff resource preloading', (done) => {
   // dispatch action which sould trigger WTGM.init
@@ -31,6 +31,20 @@ test('app should kickoff resource preloading', (done) => {
     expect(true).toBeTruthy();
     done();
   })).not.toThrow();
+});
+
+test('app should be update offline cache', () => {
+  window.location.reload = jest.fn();
+  expect(updateHandler).toBeDefined();
+  expect(OfflinePluginRuntime.install).toHaveBeenCalled();
+
+  expect(updateHandler.onUpdating).not.toThrow();
+  expect(updateHandler.onUpdateReady).not.toThrow();
+  expect(OfflinePluginRuntime.applyUpdate).toHaveBeenCalled();
+  expect(updateHandler.onUpdated).not.toThrow();
+  expect(window.location.reload).toHaveBeenCalled();
+  expect(updateHandler.onUpdateFailed).not.toThrow();
+
 });
 
 test('app should add event listeners', () => {
