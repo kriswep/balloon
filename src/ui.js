@@ -42,7 +42,7 @@ export const initUI = () => {
     if (!WTGM.hit) {
       WTGM.hit = 1;// keine minuspunkte
     }
-    document.querySelector('.startGame').textContent = 'Neustart';
+    document.querySelector('.startGame').textContent = 'Restart';
 
     document.querySelector('.inGameOption').style.display = 'list-item';
     document.querySelector('.ui').classList.add('gameRunning');
