@@ -207,7 +207,7 @@ const WTGM = {
       }, []);
 
       if (!WTGM.highscoreBroken && Math.round(WTGM.score / 100) > WTGM.highsore) {
-        const message = new WtMessage('Neuer Highscore!', WTGM.touchX, WTGM.touchY - 25, '#118811', WTGM);
+        const message = new WtMessage('HIGHSCORE!', WTGM.touchX, WTGM.touchY - 25, '#118811', WTGM);
         WTGM.objects.push(message);
         WTGM.highscoreBroken = 1;
       }
@@ -223,7 +223,7 @@ const WTGM = {
           let message = new WtMessage('-10', WTGM.touchX, WTGM.touchY, '#881111', WTGM);
           WTGM.objects.push(message);
           if (WTGM.highscoreBroken && Math.round(WTGM.score / 100) < WTGM.highsore) {
-            message = new WtMessage('Highscore verloren!', WTGM.touchX, WTGM.touchY - 25, '#881111', WTGM);
+            message = new WtMessage('Highscore lost!', WTGM.touchX, WTGM.touchY - 25, '#881111', WTGM);
             WTGM.objects.push(message);
             WTGM.highscoreBroken = 0;
           }
@@ -248,7 +248,7 @@ const WTGM = {
 
   endGame() {
     WTGM.paused = 1;
-    document.querySelector('.startGame').textContent = 'Spiel starten';
+    document.querySelector('.startGame').textContent = 'Play';
     document.querySelector('.inGameOption').style.display = 'none';
     document.querySelector('.ui').classList.remove('gameRunning');
     document.querySelector('.ui').style.display = '';
@@ -316,8 +316,8 @@ const WTGM = {
       WTGM.objects[i].draw(WTGM.ctx);
     }
     // Score
-    WTGM.Draw.text(`Punkte: ${Math.round(WTGM.score / 100)}`, 5, 25, 24, '#333');
-    WTGM.Draw.text(`Leben: ${WTGM.life}`, 5, 50, 24, '#333');
+    WTGM.Draw.text(`Points: ${Math.round(WTGM.score / 100)}`, 5, 25, 24, '#333');
+    WTGM.Draw.text(`Life: ${WTGM.life}`, 5, 50, 24, '#333');
     // FPS
     if (WTGM.showFps) {
       WTGM.Draw.text(Math.round(WTGM.fps), 5, 440, 24, '#333');

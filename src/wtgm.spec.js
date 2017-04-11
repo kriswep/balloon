@@ -129,7 +129,7 @@ test('WTGM endGame schould update ui', () => {
   // assert
   expect(WTGM.paused).toBeTruthy();
   expect(document.querySelector('.startGame').textContent)
-    .toBe('Spiel starten');
+    .toBe('Play');
   expect(document.querySelector('.inGameOption').style.display)
     .toBe('none');
   expect(document.querySelector('.ui').classList.contains('gameRunning'))
