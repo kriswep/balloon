@@ -265,6 +265,27 @@ test('WTGM should have a helper to decrease life', () => {
   expect(WTGM.life).toBe(0);
 });
 
+// baby mode
+test('WTGM should have baby mode', () => {
+  WTGM.baby = 0;
+  WTGM.paused = 0;
+  // baby mode should be toggable
+  expect(WTGM.toggleBaby).not.toThrow();
+  expect(WTGM.baby).toBeTruthy();
+  expect(WTGM.mode).toBe(50);
+  expect(WTGM.paused).toBeTruthy();
+
+  WTGM.paused = 0;
+  expect(WTGM.toggleBaby).not.toThrow();
+  expect(WTGM.baby).toBeFalsy();
+  expect(WTGM.mode).toBe(3);
+  expect(WTGM.paused).toBeTruthy();
+
+  expect(WTGM.toggleBaby).not.toThrow();
+  expect(WTGM.baby).toBeTruthy();
+  expect(WTGM.mode).toBe(50);
+});
+
 // draw helpers
 test('WTGM should provide draw helpers', () => {
   expect(WTGM.Draw).toBeDefined();

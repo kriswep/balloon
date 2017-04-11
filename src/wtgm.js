@@ -41,6 +41,7 @@ const WTGM = {
   touchStart: 0,
   touchX: 0,
   touchY: 0,
+  baby: 0,
 
   // Zoom helper, 3 zoom levels supported
   zoomHelper: {
@@ -371,6 +372,21 @@ const WTGM = {
    */
   decreaseLife(quantity = 1) {
     WTGM.life -= quantity;
+  },
+
+  /**
+   * toggle the easier baby mode
+   *
+   */
+  toggleBaby() {
+    if (WTGM.baby) {
+      WTGM.baby = 0;
+      WTGM.mode = 3;
+    } else {
+      WTGM.baby = 1;
+      WTGM.mode = 50;
+    }
+    WTGM.endGame();
   },
 };
 

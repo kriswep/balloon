@@ -6,6 +6,7 @@ jest.mock('./wtgm', () =>
   ({
     setScore: jest.fn(),
     startGame: jest.fn(),
+    toggleBaby: jest.fn(),
   }),
 );
 
@@ -89,11 +90,23 @@ test('UI should init its UI', () => {
   event.preventDefault = jest.fn();
   toBaby.dispatchEvent(event);
   expect(event.preventDefault).toBeCalled();
+  expect(WTGM.toggleBaby).toBeCalled();
+  expect(document.querySelector('.toBaby').style.display)
+    .toBe('none');
+  expect(document.querySelector('.toKids').style.display)
+    .toBe('');
   event.preventDefault.mockClear();
+  WTGM.toggleBaby.mockClear();
 
   toKids.dispatchEvent(event);
   expect(event.preventDefault).toBeCalled();
+  expect(WTGM.toggleBaby).toBeCalled();
+  expect(document.querySelector('.toBaby').style.display)
+    .toBe('');
+  expect(document.querySelector('.toKids').style.display)
+    .toBe('none');
   event.preventDefault.mockClear();
+  WTGM.toggleBaby.mockClear();
 
   WTGM.paused = 0;
   WTGM.hit = 0;
