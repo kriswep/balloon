@@ -252,6 +252,14 @@ test('WTGM should generate balloons', () => {
   // should not add right away
   expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
   expect(WTGM.objects.length).toBe(1);
+
+  // should add  in baby mode
+  WTGM.baby = 1;
+  WTGM.createObjectTime = new Date().getTime();
+  WTGM.objects = [];
+  expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
+  expect(WTGM.objects.length).toBe(1);
+  expect(WTGM.objects[0].balloonNumber).toBeDefined();
 });
 
 // decrease life

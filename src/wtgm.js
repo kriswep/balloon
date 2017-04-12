@@ -358,10 +358,32 @@ const WTGM = {
    */
   generateBalloon() {
     const time = new Date().getTime();
+    // if (WTGM.createObjectTime <= time) {
+    //   WTGM.createObjectTime = time + Math.floor(Math.random() * 2000) + 500;
+    //   const balloon = new WtBalloon(Math.floor(Math.random() * 8),
+    //     Math.floor(Math.random() * 256), 500, Math.floor(Math.random() * 3) + 1, WTGM);
+    //   WTGM.objects.push(balloon);
+    // }
+
+    let balloonCreateRand = 2000;
+    let balloonCreateConst = 500;
+    let balloonSpeedRand = 3;
+    const balloonSpeedConst = 1;
+
+    if (WTGM.baby) {
+      balloonCreateRand = 3000;
+      balloonCreateConst = 1000;
+      balloonSpeedRand = 1;
+    }
     if (WTGM.createObjectTime <= time) {
-      WTGM.createObjectTime = time + Math.floor(Math.random() * 2000) + 500;
-      const balloon = new WtBalloon(Math.floor(Math.random() * 8), Math.floor(Math.random() * 256),
-        500, Math.floor(Math.random() * 3) + 1, WTGM);
+      WTGM.createObjectTime = time
+        + Math.floor(Math.random() * balloonCreateRand)
+        + balloonCreateConst;
+      const balloon = new WtBalloon(Math.floor(Math.random() * 8),
+        Math.floor(Math.random() * 256),
+        500,
+        Math.floor(Math.random() * balloonSpeedRand) + balloonSpeedConst,
+        WTGM);
       WTGM.objects.push(balloon);
     }
   },
