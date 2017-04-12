@@ -177,8 +177,9 @@ const WTGM = {
     WTGM.touchX = pos.x;
     WTGM.touchY = pos.y;
     if (time - WTGM.touchStart > 300) {
-      // Zeit um Bonus zu bekommen!
-      WTGM.handleTouchEnd();
+      // Zeit um Bonus zu bekommen ist vorbei!
+      WTGM.touchStart = time;
+      WTGM.hit = 0;
     }
     // Hit?
     if (WTGM.touching) {

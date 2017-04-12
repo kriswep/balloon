@@ -103,13 +103,16 @@ window.addEventListener('touchstart', (e) => {
   e.preventDefault();
   WTGM.touching = 1;
   WTGM.touchStart = new Date().getTime();
-  touchHandler(e.touches[0]);
+  // touchHandler(e.touches[0]);
+  Array.from(e.touches).map(touch =>
+    touchHandler(touch),
+  );
 }, false);
 window.addEventListener('touchmove', (e) => {
   e.preventDefault();
-  touchHandler(e.touches[0]);
-  // touchHandler(e.touches[0]);
-  // WTGM.handleMouseDown(e.touches[0].pageX, e.touches[0].pageY);
+  Array.from(e.touches).map(touch =>
+    touchHandler(touch),
+  );
 }, false);
 
 window.addEventListener('touchend', (e) => {
