@@ -252,6 +252,14 @@ test('WTGM should generate balloons', () => {
   // should not add right away
   expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
   expect(WTGM.objects.length).toBe(1);
+
+  // should add  in baby mode
+  WTGM.baby = 1;
+  WTGM.createObjectTime = new Date().getTime();
+  WTGM.objects = [];
+  expect(WTGM.generateBalloon.bind(WTGM)).not.toThrow();
+  expect(WTGM.objects.length).toBe(1);
+  expect(WTGM.objects[0].balloonNumber).toBeDefined();
 });
 
 // decrease life
@@ -263,6 +271,27 @@ test('WTGM should have a helper to decrease life', () => {
   expect(WTGM.life).toBe(9);
   WTGM.decreaseLife(9);
   expect(WTGM.life).toBe(0);
+});
+
+// baby mode
+test('WTGM should have baby mode', () => {
+  WTGM.baby = 0;
+  WTGM.paused = 0;
+  // baby mode should be toggable
+  expect(WTGM.toggleBaby).not.toThrow();
+  expect(WTGM.baby).toBeTruthy();
+  expect(WTGM.mode).toBe(50);
+  expect(WTGM.paused).toBeTruthy();
+
+  WTGM.paused = 0;
+  expect(WTGM.toggleBaby).not.toThrow();
+  expect(WTGM.baby).toBeFalsy();
+  expect(WTGM.mode).toBe(3);
+  expect(WTGM.paused).toBeTruthy();
+
+  expect(WTGM.toggleBaby).not.toThrow();
+  expect(WTGM.baby).toBeTruthy();
+  expect(WTGM.mode).toBe(50);
 });
 
 // draw helpers

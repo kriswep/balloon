@@ -41,6 +41,7 @@ const WTGM = {
   touchStart: 0,
   touchX: 0,
   touchY: 0,
+  baby: 0,
 
   // Zoom helper, 3 zoom levels supported
   zoomHelper: {
@@ -176,8 +177,9 @@ const WTGM = {
     WTGM.touchX = pos.x;
     WTGM.touchY = pos.y;
     if (time - WTGM.touchStart > 300) {
-      // Zeit um Bonus zu bekommen!
-      WTGM.handleTouchEnd();
+      // Zeit um Bonus zu bekommen ist vorbei!
+      WTGM.touchStart = time;
+      WTGM.hit = 0;
     }
     // Hit?
     if (WTGM.touching) {
@@ -356,10 +358,32 @@ const WTGM = {
    */
   generateBalloon() {
     const time = new Date().getTime();
+    // if (WTGM.createObjectTime <= time) {
+    //   WTGM.createObjectTime = time + Math.floor(Math.random() * 2000) + 500;
+    //   const balloon = new WtBalloon(Math.floor(Math.random() * 8),
+    //     Math.floor(Math.random() * 256), 500, Math.floor(Math.random() * 3) + 1, WTGM);
+    //   WTGM.objects.push(balloon);
+    // }
+
+    let balloonCreateRand = 2000;
+    let balloonCreateConst = 500;
+    let balloonSpeedRand = 3;
+    const balloonSpeedConst = 1;
+
+    if (WTGM.baby) {
+      balloonCreateRand = 3000;
+      balloonCreateConst = 1000;
+      balloonSpeedRand = 1;
+    }
     if (WTGM.createObjectTime <= time) {
-      WTGM.createObjectTime = time + Math.floor(Math.random() * 2000) + 500;
-      const balloon = new WtBalloon(Math.floor(Math.random() * 8), Math.floor(Math.random() * 256),
-        500, Math.floor(Math.random() * 3) + 1, WTGM);
+      WTGM.createObjectTime = time
+        + Math.floor(Math.random() * balloonCreateRand)
+        + balloonCreateConst;
+      const balloon = new WtBalloon(Math.floor(Math.random() * 8),
+        Math.floor(Math.random() * 256),
+        500,
+        Math.floor(Math.random() * balloonSpeedRand) + balloonSpeedConst,
+        WTGM);
       WTGM.objects.push(balloon);
     }
   },
@@ -371,6 +395,21 @@ const WTGM = {
    */
   decreaseLife(quantity = 1) {
     WTGM.life -= quantity;
+  },
+
+  /**
+   * toggle the easier baby mode
+   *
+   */
+  toggleBaby() {
+    if (WTGM.baby) {
+      WTGM.baby = 0;
+      WTGM.mode = 3;
+    } else {
+      WTGM.baby = 1;
+      WTGM.mode = 50;
+    }
+    WTGM.endGame();
   },
 };
 

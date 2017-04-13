@@ -71,10 +71,6 @@ module.exports = {
       filename: 'index.html',
       template: 'template.index.html',
     }),
-    new HtmlWebpackPlugin({
-      filename: 'baby.html',
-      template: 'template.baby.html',
-    }),
     new CopyWebpackPlugin([
       {
         from: './src/img',

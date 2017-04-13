@@ -28,12 +28,19 @@ export const initUI = () => {
 
   addListenerMulti(document.querySelector('.toBaby'), 'mousedown touchstart', (e) => {
     e.preventDefault();
-    document.location.href = 'baby.html';
+    WTGM.toggleBaby();
+    document.querySelector('.toBaby').style.display = 'none';
+    document.querySelector('.toKids').style.display = '';
+    // e.preventDefault();
+    // document.location.href = 'baby.html';
   });
 
   addListenerMulti(document.querySelector('.toKids'), 'mousedown touchstart', (e) => {
     e.preventDefault();
-    document.location.href = 'index.html';
+    WTGM.toggleBaby();
+    document.querySelector('.toBaby').style.display = '';
+    document.querySelector('.toKids').style.display = 'none';
+    // document.location.href = 'index.html';
   });
 
   addListenerMulti(document.querySelector('.openMenu'), 'mousedown touchstart', (e) => {
