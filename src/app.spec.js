@@ -44,7 +44,6 @@ test('app should be update offline cache', () => {
   expect(updateHandler.onUpdated).not.toThrow();
   expect(window.location.reload).toHaveBeenCalled();
   expect(updateHandler.onUpdateFailed).not.toThrow();
-
 });
 
 test('app should add event listeners', () => {
