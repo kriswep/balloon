@@ -1,5 +1,11 @@
+/* globals window AudioContext */
 const sound = {
-  playPlop: () => {
+  aCtx: undefined,
+  init() {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.aCtx = new AudioContext();
+  },
+  playPlop() {
 
   },
 };
