@@ -3,9 +3,12 @@ import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import WTGM from './wtgm';
 import ResourceLoader, { ResourceType } from './resourceLoader';
 import './ui';
+import sound from './sound';
 
 import './css/ml.css';
 import './css/ui.css';
+
+window.sound = sound; // expose sound for testing
 
 /* eslint-disable no-console */
 export const updateHandler = {
