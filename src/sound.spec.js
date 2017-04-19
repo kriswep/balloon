@@ -26,6 +26,7 @@ test('Sound should have a init function which inits audioContext', () => {
 });
 
 test('Sound should have a playPlop function', () => {
+  expect(sound.noiseBuffer).toBeDefined();
   expect(sound.playPlop).toBeDefined();
 
   sound.aCtx = undefined;
