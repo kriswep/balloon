@@ -4,6 +4,13 @@ import 'web-audio-mock';
 import sound from './sound';
 
 
+// small localStorage mock
+global.localStorage = {
+  getItem: jest.fn()
+    .mockImplementationOnce(() => null)
+    .mockImplementation(() => 1),
+};
+
 test('Sound should have a init function which inits audioContext', () => {
   // mock window.webkitAudioContext, window.AudioConext is mocked through import above
   window.webkitAudioContext = window.AudioContext;
@@ -11,8 +18,9 @@ test('Sound should have a init function which inits audioContext', () => {
   expect(sound.aCtx).not.toBeDefined();
   expect(sound.init).toBeDefined();
   expect(sound.init.bind(sound)).not.toThrow();
-  // sound.init();
   expect(sound.aCtx).toBeDefined();
+  expect(sound.mainGain).toBeDefined();
+  expect(sound.mainGain.gain.value).toBe(0.8);
 
   // remock window.AudioContext
   window.AudioContext = window.webkitAudioContext;
@@ -21,8 +29,9 @@ test('Sound should have a init function which inits audioContext', () => {
   expect(sound.aCtx).not.toBeDefined();
   expect(sound.init).toBeDefined();
   expect(sound.init.bind(sound)).not.toThrow();
-  // sound.init();
   expect(sound.aCtx).toBeDefined();
+  expect(sound.mainGain).toBeDefined();
+  expect(sound.mainGain.gain.value).toBe(1);
 });
 
 test('Sound should have a playPlop function', () => {

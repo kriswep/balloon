@@ -1,9 +1,13 @@
-/* globals window AudioContext */
+/* globals window AudioContext localStorage */
 const sound = {
   aCtx: undefined,
   init() {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.aCtx = new AudioContext();
+
+    this.mainGain = this.aCtx.createGain();
+    this.mainGain.gain.value = localStorage.getItem('sound') || 0.8;
+    this.mainGain.connect(this.aCtx.destination);
   },
   noiseBuffer() {
     const bufferSize = this.aCtx.sampleRate;
@@ -20,13 +24,14 @@ const sound = {
     if (!this.aCtx) {
       this.init();
     }
+
     const time = sound.aCtx.currentTime;
     const noise = this.aCtx.createBufferSource();
     const noiseEnvelope = this.aCtx.createGain();
 
     noise.buffer = this.noiseBuffer();
     noise.connect(noiseEnvelope);
-    noiseEnvelope.connect(this.aCtx.destination);
+    noiseEnvelope.connect(this.mainGain);
 
     noiseEnvelope.gain.setValueAtTime(1, time);
     noiseEnvelope.gain.exponentialRampToValueAtTime(0.01, time + 0.2);
