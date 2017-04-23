@@ -5472,6 +5472,10 @@ wbuf@^1.1.0, wbuf@^1.4.0:
   dependencies:
     minimalistic-assert "^1.0.0"
 
+web-audio-mock@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/web-audio-mock/-/web-audio-mock-0.1.9.tgz#23d46d6376ec9a18acb73afb236e2ba5b43c83f2"
+
 webidl-conversions@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"

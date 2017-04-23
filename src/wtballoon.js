@@ -1,3 +1,6 @@
+
+import sound from './sound';
+
 export default function wtBalloon(balloonNumber, x, y, speed, WTGM) {
   this.balloonNumber = balloonNumber;
   this.verticalOffset = 0;
@@ -99,6 +102,7 @@ export default function wtBalloon(balloonNumber, x, y, speed, WTGM) {
       return false;
     }
     if (xP > this.x && xP < this.x + this.width && yP > this.y && yP < this.y + this.height) {
+      sound.playPlop();
       return true;
     }
     return false;

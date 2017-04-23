@@ -1,5 +1,12 @@
 /* globals test jest expect */
 import WtBalloon from './wtballoon';
+import sound from './sound';
+
+jest.mock('./sound', () =>
+  ({
+    playPlop: jest.fn(),
+  }),
+);
 
 const getUpdatedProps = (obj, prop) => {
   obj.update();
@@ -191,6 +198,7 @@ test('WtBalloon isInside should check if point is inside balloon', () => {
   const balloon = new WtBalloon(0, 700, 500, 5, WTGM);
   expect(balloon.isInside(0, 0)).toBeFalsy();
   expect(balloon.isInside(701, 501)).toBeTruthy();
+  expect(sound.playPlop).toHaveBeenCalled();
   balloon.remove = 1;
   expect(balloon.isInside(701, 501)).toBeFalsy();
 });
