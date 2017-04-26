@@ -1,5 +1,6 @@
 /* globals document */
 import WTGM from './wtgm';
+import sound from './sound';
 
 
 export function addListenerMulti(el, s, fn) {
@@ -67,6 +68,11 @@ export const initUI = () => {
     document.querySelector('.openMenu').style.display = 'inline';
 
     WTGM.paused = 0;
+  });
+
+  addListenerMulti(document.querySelector('.soundVolume'), 'change', (e) => {
+    e.preventDefault();
+    sound.setVolume(e.target.value);
   });
 };
 
