@@ -6,8 +6,15 @@ const sound = {
     this.aCtx = new AudioContext();
 
     this.mainGain = this.aCtx.createGain();
-    this.mainGain.gain.value = localStorage.getItem('sound') || 0.8;
+    this.mainGain.gain.value = this.getVolume();
     this.mainGain.connect(this.aCtx.destination);
+  },
+  getVolume() {
+    const volume = localStorage.getItem('sound');
+    return volume !== null && volume >= 0 && volume <= 1 ? volume : 0.8;
+  },
+  setVolume(newVolume) {
+    localStorage.setItem('sound', newVolume);
   },
   noiseBuffer() {
     const bufferSize = this.aCtx.sampleRate;
@@ -24,6 +31,8 @@ const sound = {
     if (!this.aCtx) {
       this.init();
     }
+
+    this.mainGain.gain.value = this.getVolume();
 
     const time = sound.aCtx.currentTime;
     const noise = this.aCtx.createBufferSource();

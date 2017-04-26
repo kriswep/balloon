@@ -1,12 +1,21 @@
 /* globals test expect jest document Event */
 import { ready, addListenerMulti, initUI } from './ui';
 import WTGM from './wtgm';
+import sound from './sound';
 
 jest.mock('./wtgm', () =>
   ({
     setScore: jest.fn(),
     startGame: jest.fn(),
     toggleBaby: jest.fn(),
+  }),
+);
+
+jest.mock('./sound', () =>
+  ({
+    setVolume: jest.fn(),
+    getVolume: jest.fn()
+      .mockImplementation(() => 0.3),
   }),
 );
 
@@ -61,6 +70,7 @@ test('UI should init its UI', () => {
   const toKids = document.createElement('div');
   const inGameOption = document.createElement('div');
   const resumeGame = document.createElement('div');
+  const soundVolume = document.createElement('input');
   startGame.classList.add('startGame');
   ui.classList.add('ui', 'gameRunning');
   openMenu.classList.add('openMenu');
@@ -68,6 +78,9 @@ test('UI should init its UI', () => {
   toKids.classList.add('toKids');
   inGameOption.classList.add('inGameOption');
   resumeGame.classList.add('resumeGame');
+  soundVolume.classList.add('soundVolume');
+  soundVolume.type = 'range';
+  soundVolume.value = 0.9;
   document.body.appendChild(startGame);
   document.body.appendChild(ui);
   document.body.appendChild(canvas);
@@ -76,6 +89,7 @@ test('UI should init its UI', () => {
   document.body.appendChild(toKids);
   document.body.appendChild(inGameOption);
   document.body.appendChild(resumeGame);
+  document.body.appendChild(soundVolume);
 
 
   expect(initUI).not.toThrow();
@@ -126,4 +140,13 @@ test('UI should init its UI', () => {
   WTGM.hit = 1;
   resumeGame.dispatchEvent(event);
   expect(WTGM.hit).toBeTruthy();
+
+
+  expect(soundVolume.value).toBe('0.3');
+  const changeEvent = new Event('change');
+  soundVolume.dispatchEvent(changeEvent);
+  expect(sound.setVolume).toBeCalled();
+  expect(sound.setVolume.mock.calls[0]).toEqual(['0.3']);
+  sound.setVolume.mockClear();
+  WTGM.startGame.mockClear();
 });
