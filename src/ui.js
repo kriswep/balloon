@@ -69,7 +69,10 @@ export const initUI = () => {
 
     WTGM.paused = 0;
   });
-
+  // console.log(document.querySelector('.soundVolume').value);
+  if (document.querySelector('.soundVolume')) {
+    document.querySelector('.soundVolume').value = sound.getVolume();
+  }
   addListenerMulti(document.querySelector('.soundVolume'), 'change', (e) => {
     e.preventDefault();
     sound.setVolume(e.target.value);

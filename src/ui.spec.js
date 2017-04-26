@@ -14,6 +14,8 @@ jest.mock('./wtgm', () =>
 jest.mock('./sound', () =>
   ({
     setVolume: jest.fn(),
+    getVolume: jest.fn()
+      .mockImplementation(() => 0.3),
   }),
 );
 
@@ -78,7 +80,7 @@ test('UI should init its UI', () => {
   resumeGame.classList.add('resumeGame');
   soundVolume.classList.add('soundVolume');
   soundVolume.type = 'range';
-  soundVolume.value = 0.5;
+  soundVolume.value = 0.9;
   document.body.appendChild(startGame);
   document.body.appendChild(ui);
   document.body.appendChild(canvas);
@@ -140,10 +142,11 @@ test('UI should init its UI', () => {
   expect(WTGM.hit).toBeTruthy();
 
 
+  expect(soundVolume.value).toBe('0.3');
   const changeEvent = new Event('change');
   soundVolume.dispatchEvent(changeEvent);
   expect(sound.setVolume).toBeCalled();
-  expect(sound.setVolume.mock.calls[0]).toEqual(['0.5']);
+  expect(sound.setVolume.mock.calls[0]).toEqual(['0.3']);
   sound.setVolume.mockClear();
   WTGM.startGame.mockClear();
 });

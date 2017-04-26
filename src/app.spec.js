@@ -4,6 +4,19 @@ import './__helpers__/app.helper';
 import preloadResources, { updateHandler } from './app';
 import WTGM from './wtgm';
 // import ResourceLoader from './resourceLoader';
+import './ui';
+
+jest.mock('./wtgm', () =>
+  ({
+    setScore: jest.fn(),
+    startGame: jest.fn(),
+    toggleBaby: jest.fn(),
+  }),
+);
+
+jest.mock('./ui', () =>
+  true,
+);
 
 jest.mock('./wtgm', () =>
   ({
