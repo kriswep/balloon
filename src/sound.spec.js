@@ -3,15 +3,11 @@
 import 'web-audio-mock';
 import sound from './sound';
 
-
-
-
 test('Sound should have a init function which inits audioContext', () => {
   // mock window.webkitAudioContext, window.AudioConext is mocked through import above
   // small localStorage mock
   global.localStorage = {
-    getItem: jest.fn()
-      .mockImplementation(() => null),
+    getItem: jest.fn().mockImplementation(() => null),
     setItem: jest.fn(),
   };
   window.webkitAudioContext = window.AudioContext;
@@ -26,8 +22,7 @@ test('Sound should have a init function which inits audioContext', () => {
   // remock window.AudioContext
   // small localStorage mock
   global.localStorage = {
-    getItem: jest.fn()
-      .mockImplementation(() => 1),
+    getItem: jest.fn().mockImplementation(() => 1),
     setItem: jest.fn(),
   };
   window.AudioContext = window.webkitAudioContext;
@@ -53,7 +48,8 @@ test('Sound should have a playPlop function', () => {
 test('Sound should maintain volume', () => {
   // small localStorage mock
   global.localStorage = {
-    getItem: jest.fn()
+    getItem: jest
+      .fn()
       .mockImplementationOnce(() => null)
       .mockImplementationOnce(() => 1)
       .mockImplementationOnce(() => 0)
@@ -67,8 +63,6 @@ test('Sound should maintain volume', () => {
   expect(sound.getVolume()).toBe(0);
   expect(sound.getVolume()).toBe(0.5);
 
-
   expect(sound.setVolume.bind(sound, [0.3])).not.toThrow();
   expect(global.localStorage.setItem.mock.calls[0]).toEqual(['sound', [0.3]]);
 });
-
